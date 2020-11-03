@@ -2,8 +2,10 @@
 <!-- 自动提交状态页面 -->
 <!-- 页面加载时获取自动提交列表状态信息 -->
 <script type="text/javascript">
-    var obj = {};
+    var obj = [];
     function init() {//页面向服务器请求获得autostatusdata进行页面初始化
+        console.log("init start")
+        var res;
         var xmlhttp;
         if (window.XMLHttpRequest) {//for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp = new XMLHttpRequest();
@@ -23,7 +25,7 @@
 </script>
 
 <head>
-    <meta http-equiv="refresh" content="2">
+    <!--<meta http-equiv="refresh" content="2">-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>自动评测状态-XOJ</title>
     <link rel="icon" href="/ref/logo.ico" type="logo-icon" />
@@ -74,6 +76,7 @@
                     </el-table-column>
                 </el-table>
             </div>
+        </center>
     </div>
     <div class="wrapper">
         <div class="push"></div>
@@ -104,7 +107,9 @@
     new Vue({
         el: '#main',
         data: function () {
-            return obj;
+            return {
+                autolist:[]
+            };
         },
         methods: {
             click(row, column, cell, event) {
@@ -152,6 +157,21 @@
                     window.open(url);
                 }
             }
+        },
+        mounted(){
+            var this_ = this
+            this.timer = setInterval(function() {
+                init();
+                this_.autolist = [];
+                if(obj != undefined){
+                    for (var i = 0; i<obj.autolist.length; i++){
+                        this_.autolist.push(obj.autolist[i]);
+                    }
+                }
+            }, 1000);
+        },
+        beforeDestroy() {
+            clearInterval(this.timer);
         }
     })
 </script>

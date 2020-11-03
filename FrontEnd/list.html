@@ -53,10 +53,14 @@
       <el-table :data="list" ref="multipleTable" border stripe style="width: 100%" @cell-click="click" @selection-change="handleSelectionChange"
         :row-class-name="selectedRow">
         <el-table-column type="selection" label="选择" prop="选择">
+        <!--</el-table-column>-->
+        <!--<el-table-column prop="OJ" label="OJ" sortable align="center" width="130">-->
+        <!--</el-table-column>-->
+        <!--<el-table-column prop="ID" label="ID" sortable align="center" width="180">-->
         </el-table-column>
-        <el-table-column prop="OJ" label="OJ" sortable align="center" width="130">
+        <el-table-column prop="OJ" label="OJ" align="center" width="130">
         </el-table-column>
-        <el-table-column prop="ID" label="ID" sortable align="center" width="180">
+        <el-table-column prop="ID" label="ID" align="center" width="180">
         </el-table-column>
         <el-table-column prop="Title" label="Title" :formatter="formatter">
         </el-table-column>
