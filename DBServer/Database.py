@@ -1,5 +1,6 @@
 import sqlite3
 
+
 class Database:
 
     def __init__(self):
@@ -22,7 +23,7 @@ class Database:
         con.commit()
         con.close()
 
-    def get_list(self, number = 10):
+    def get_list(self, number=10):
         con = sqlite3.connect('Data.db')
         cur = con.cursor()
         sql = 'SELECT oj, pid, title FROM XOJ'
@@ -31,7 +32,7 @@ class Database:
         cur.close()
         con.close()
         return lst
-        
+
     def save_list(self, lst):
         con = sqlite3.connect('Data.db')
         cur = con.cursor()
@@ -44,7 +45,7 @@ class Database:
         cur.close()
         con.close()
         return True
-   
+
     def get_problem(self, oj, problemid):
         con = sqlite3.connect('Data.db')
         cur = con.cursor()
@@ -56,7 +57,7 @@ class Database:
         cur.close()
         con.close()
         if data == None or data[3] == None:
-            return None  
+            return None
         problem = {
             'oj': data[0],
             'pid': data[1],
@@ -77,8 +78,8 @@ class Database:
                 sample_input, sample_output)
             VALUES ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")
             ''' % (problem['oj'].upper(), problem['pid'], problem['title'],
-            problem['desc'], problem['input'], problem['output'],
-            problem['sample_input'], problem['sample_output'])
+                   problem['desc'], problem['input'], problem['output'],
+                   problem['sample_input'], problem['sample_output'])
         try:
             cur.execute(sql)
         except:
@@ -87,8 +88,8 @@ class Database:
         cur.close()
         con.close()
         return True
-    
-    def get_title(self,oj,problemid):
+
+    def get_title(self, oj, problemid):
         con = sqlite3.connect('Data.db')
         cur = con.cursor()
         sql = '''SELECT title FROM XOJ
@@ -102,7 +103,7 @@ class Database:
             return 'Problem Not Found'
         else:
             return title
-        
+
     def reset(self):
         con = sqlite3.connect('Data.db')
         cur = con.cursor()

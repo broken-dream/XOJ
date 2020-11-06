@@ -1,13 +1,13 @@
 import bottle, json
 import os, copy
-import Database
+import DatabaseClient
 import OnlineJudge
 import Search
 
 os.chdir('FrontEnd')
 
 xoj = bottle.Bottle()
-db = Database.Database()
+db = DatabaseClient.DatabaseClient("127.0.0.1", 5000)
 
 hdu = OnlineJudge.HDU()
 poj = OnlineJudge.POJ()
