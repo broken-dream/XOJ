@@ -50,21 +50,28 @@
           <a href="/autostatus.html">自动提交状态</a>
         </el-menu-item>
       </el-menu>
-      <el-table :data="list" ref="multipleTable" border stripe style="width: 100%" @cell-click="click" @selection-change="handleSelectionChange"
+      <el-table :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" ref="multipleTable" border stripe style="width: 100%" @cell-click="click" @selection-change="handleSelectionChange"
         :row-class-name="selectedRow">
         <el-table-column type="selection" label="选择" prop="选择">
-        <!--</el-table-column>-->
-        <!--<el-table-column prop="OJ" label="OJ" sortable align="center" width="130">-->
-        <!--</el-table-column>-->
-        <!--<el-table-column prop="ID" label="ID" sortable align="center" width="180">-->
         </el-table-column>
-        <el-table-column prop="OJ" label="OJ" align="center" width="130">
+        <el-table-column prop="OJ" label="OJ" sortable align="center" width="130">
         </el-table-column>
-        <el-table-column prop="ID" label="ID" align="center" width="180">
+        <el-table-column prop="ID" label="ID" sortable align="center" width="180">
         </el-table-column>
         <el-table-column prop="Title" label="Title" :formatter="formatter">
         </el-table-column>
       </el-table>
+      <el-pagination 
+                @size-change="handleSizeChange" 
+                @current-change="handleCurrentChange" 
+                :current-page="currentPage" 
+                :page-sizes="[5, 10, 20, 40]" 
+                :page-size="pagesize" 
+                layout="total, sizes,prev, pager, next" 
+                :total="tableData.length" 
+                prev-text="上一页" 
+                next-text="下一页">
+      </el-pagination>
       <div style="margin-top: 20px">
         <el-button type="success" @click="submitSelected">自动提交已选中题目</el-button>
       </div>
@@ -99,9 +106,21 @@
   var order = new Vue({
     el: '#listTable',
     data() {
-      return obj;
+      return {   
+                currentPage: 1, //默认显示页面为1
+                pagesize: 10, //    每页的数据条数  
+                tableData: []
+            }
+     
     },
+    mounted() {
+            this.getData();
+        },
     methods: {
+      getData(){
+       
+        this.tableData = obj['list']
+      },
       formatter(row, column) {
         return row.Title;
       },
@@ -194,7 +213,20 @@
       handleSelectionChange(val) {
         //把当前选中行存入multipleSelection对象
         this.multipleSelection = val;
-      }
+      },
+      handleSizeChange: function(size) {
+                this.pagesize = size;
+                /*console.log(this.pagesize) */
+            },
+            //点击第几页
+      handleCurrentChange: function(currentPage) {
+                this.currentPage = currentPage;
+                /*console.log(this.currentPage) */
+            },
+    
+
+    
+      
     }
   });
 </script>
