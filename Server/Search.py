@@ -1,7 +1,13 @@
 import urllib.request, urllib.parse
 from bs4 import BeautifulSoup
+import logging
+import re
+logging.basicConfig(level=logging.DEBUG)
+reChinese = re.compile(r'[^\x00-\x7f]')
+
 
 def search(onlinejudge, problem, index = 0):
+	logging.debug("search:")
 	data = {
 		'wd': 'site:blog.csdn.net' + ' ' + onlinejudge + ' ' + problem,
 		'tn': 'baidurt'
@@ -15,9 +21,14 @@ def search(onlinejudge, problem, index = 0):
 	url = tag_f.h3.a['href']
 
 	html = urllib.request.urlopen(url).read()
+	#logging.debug("html:")
+	#logging.debug(html)
 	soup = BeautifulSoup(html, 'lxml')
-	code_list = soup.find_all('pre', class_ = ['cpp', 'prettyprint'])
-	
+	#code_list = soup.find_all('pre', class_ = ['cpp', 'prettyprint'])
+	code_list = soup.find_all('code', class_ = ['cpp', 'prettyprint', 'language-cpp'])
+
+	#logging.debug("code_list:")
+	#logging.debug(code_list)
 	code = ''
 	for code_item in code_list:
 		test_code = code_item.get_text()
@@ -26,8 +37,10 @@ def search(onlinejudge, problem, index = 0):
 	
 	data = {
 		'url': url,
-		'code': code
+		'code': reChinese.sub('', code)
 	}
+	logging.debug("data:")
+	logging.debug(data)
 	return data
 
 if __name__ == '__main__':

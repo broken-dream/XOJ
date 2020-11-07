@@ -3,6 +3,8 @@ import http.cookiejar
 from bs4 import BeautifulSoup
 import re
 import base64
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 class OnlineJudge:
     
@@ -249,7 +251,11 @@ class POJ(OnlineJudge):
 			'user_id': username
 		}
 		url = POJ.status_url + '?' + urllib.parse.urlencode(data)
+		logging.debug("url:")
+		logging.debug(url)   
 		html = urllib.request.urlopen(url).read().decode()
+		logging.debug("html:")
+		logging.debug(html)
 
 		soup = BeautifulSoup(html, 'lxml')
 		table = soup.find('table', class_ = 'a')

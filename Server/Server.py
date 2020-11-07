@@ -14,8 +14,8 @@ poj = OnlineJudge.POJ()
 username = 'DaDaMr_X'
 password = '199707161239x'
 hdu.login(username, password)
-# poj.login(username, password)
-
+#poj.login(username, password)
+#hdu = poj
 # Function 1: Submit Manually
 
 @xoj.route('/')
