@@ -2,6 +2,7 @@ import urllib.request, urllib.parse
 import http.cookiejar
 from bs4 import BeautifulSoup
 import re
+import base64
 
 class OnlineJudge:
     
