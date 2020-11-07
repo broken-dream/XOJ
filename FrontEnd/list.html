@@ -13,9 +13,11 @@
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         obj = JSON.parse(xmlhttp.responseText);
+        console.log(obj)
       }
     }
-    xmlhttp.open("GET", "/listdata", false);
+    //xmlhttp.open("GET", "/listdata", false);
+    xmlhttp.open("GET", "/listdata?oj=" + "HDU", false);// 默认初始化为HDU的problem list
     xmlhttp.send();
   }
   window.onload = init();
@@ -235,6 +237,28 @@
     
       handleCommand(command) {
                 this.$message('click on item ' + command);
+                var xmlhttp;
+                var oj = command; /*当command被触发时，将command所包含的OJ信息送到oj变量中*/
+                if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                }
+                else {// code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        /*recv = JSON.parse(xmlhttp.responseText);
+                        obj.statusdata.unshift(recv);
+                        obj.statusdata.pop();*/
+                        console.log(obj)
+                        obj = JSON.parse(xmlhttp.responseText);
+                        console.log(obj)
+                        
+                    }
+                }
+                //xmlhttp.open("GET", "/statusdata?oj=" + oj + "&pid=" + id, false);
+                xmlhttp.open("GET", "/listdata?oj=" + oj, false);
+                xmlhttp.send();
       }
     
       
@@ -246,7 +270,7 @@
     padding-top: 30px;
     padding-left: 5%;
     padding-right: 5%;
-    /*background-image: url(/ref/round.png);*/
+    background-image: url(/ref/round.png);
   }
 
   .wrapper {

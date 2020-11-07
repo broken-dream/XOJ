@@ -3,6 +3,8 @@ import os, copy
 import DatabaseClient
 import OnlineJudge
 import Search
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 os.chdir('FrontEnd')
 
@@ -13,9 +15,12 @@ hdu = OnlineJudge.HDU()
 poj = OnlineJudge.POJ()
 username = 'DaDaMr_X'
 password = '199707161239x'
-#hdu.login(username, password)
+hdu.login(username, password)
 poj.login(username, password)
-hdu = poj
+# hdu = poj
+ojDict = {}
+ojDict["HDU"] = hdu
+ojDict["POJ"] = poj
 # Function 1: Submit Manually
 
 @xoj.route('/')
@@ -32,10 +37,16 @@ def list_():
 @xoj.route('/listdata')
 def listdata():
     number = 50
-    oj = 'POJ'
+    oj = bottle.request.query.oj
+    #oj = 'POJ'
+    #logging.debug('Oj name:')
+    #logging.debug(oj)
     lst = db.get_list(oj, number)
+    #logging.debug('problem list:')
+    #logging.debug(lst)
     if len(lst) < number:
-        lst = hdu.list(number)
+        #lst = hdu.list(number)
+        lst = ojDict[oj].list(number)
         db.save_list(lst)
 
     lstjson = []
@@ -57,10 +68,11 @@ def problem():
     pid = bottle.request.query.pid
     problem = db.get_problem(oj, pid)
     if problem == None:
-        if oj == 'HDU':
+        '''if oj == 'HDU':
             problem = hdu.problem(pid)
         elif oj == 'POJ':
-            problem = poj.problem(pid)
+            problem = poj.problem(pid)'''
+        problem = ojDict[oj].problem(pid)
         db.save_problem(problem)
     return bottle.template('problem.html', **problem)
 
@@ -78,7 +90,8 @@ def statusdata():
     oj = submitdata['oj']
     pid = submitdata['pid']
     code = submitdata['code']
-    result = hdu.submit(pid, 'g++', code)
+    #result = hdu.submit(pid, 'g++', code)
+    result = ojDict[oj].submit(pid, 'g++', code)
     return '1' if result else '0'
 
 @xoj.route('/status')
@@ -91,10 +104,11 @@ def statusdata():
     oj = bottle.request.query.oj
     pid = bottle.request.query.pid
     title = db.get_title(oj, pid)
-    if oj == 'HDU':
+    '''if oj == 'HDU':
         status = hdu.status(pid)
     elif oj == 'POJ':
-        status = poj.status(pid)
+        status = poj.status(pid)'''
+    status = ojDict[oj].status(pid)
     data = {
         'oj': oj,
         'pid': pid,
@@ -146,12 +160,15 @@ def autostatusdata():
     if cur >= len(lst):
         return json.dumps({'autolist': lst})
 
+    oj = lst[cur]['oj']
     if result == '':
         search_data = Search.search(lst[cur]['oj'], lst[cur]['pid'], index)
         lst[cur]['url'] = search_data['url']
-        hdu.submit(lst[cur]['pid'], 'G++', search_data['code'])
+        # hdu.submit(lst[cur]['pid'], 'G++', search_data['code'])
+        ojDict[oj].submit(lst[cur]['pid'], 'G++', search_data['code'])
 
-    result = hdu.status(lst[cur]['pid'])
+    # result = hdu.status(lst[cur]['pid'])
+    result = ojDict[oj].status(lst[cur]['pid'])
     lst[cur]['status'] = result
 
     if not result in ['', 'Queuing', 'Running', 'Compiling']:
