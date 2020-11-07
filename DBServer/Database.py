@@ -23,10 +23,10 @@ class Database:
         con.commit()
         con.close()
 
-    def get_list(self, number=10):
+    def get_list(self, oj, number=10):
         con = sqlite3.connect('Data.db')
         cur = con.cursor()
-        sql = 'SELECT oj, pid, title FROM XOJ'
+        sql = 'SELECT oj, pid, title FROM XOJ WHERE oj = "%s"' % oj
         cur.execute(sql)
         lst = cur.fetchmany(number)
         cur.close()

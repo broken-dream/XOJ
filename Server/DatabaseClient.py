@@ -18,8 +18,9 @@ class DatabaseClient:
             res = resp.json()
             return res
 
-    def get_list(self, number=10):
-        data = {'number': number}
+    def get_list(self, oj, number=10):
+        data = {'number': number,
+                'oj': oj}
         res = self.send("get_list", data)
         return res["problem_list"]
 

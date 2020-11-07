@@ -13,7 +13,8 @@ db = Database()
 def get_list():
     if request.method == 'POST':
         number = int(request.form['number'])
-        res = db.get_list(number)
+        oj = request.form['oj']
+        res = db.get_list(oj, number)
         return jsonify({'problem_list': res})
 
 

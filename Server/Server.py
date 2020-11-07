@@ -13,9 +13,9 @@ hdu = OnlineJudge.HDU()
 poj = OnlineJudge.POJ()
 username = 'DaDaMr_X'
 password = '199707161239x'
-hdu.login(username, password)
-#poj.login(username, password)
-#hdu = poj
+#hdu.login(username, password)
+poj.login(username, password)
+hdu = poj
 # Function 1: Submit Manually
 
 @xoj.route('/')
@@ -32,7 +32,8 @@ def list_():
 @xoj.route('/listdata')
 def listdata():
     number = 50
-    lst = db.get_list(number)
+    oj = 'POJ'
+    lst = db.get_list(oj, number)
     if len(lst) < number:
         lst = hdu.list(number)
         db.save_list(lst)
