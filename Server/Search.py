@@ -25,7 +25,7 @@ def search(onlinejudge, problem, index = 0):
 	#logging.debug(html)
 	soup = BeautifulSoup(html, 'lxml')
 	#code_list = soup.find_all('pre', class_ = ['cpp', 'prettyprint'])
-	code_list = soup.find_all('code', class_ = ['cpp', 'prettyprint', 'language-cpp'])
+	code_list = soup.find_all('code', class_ = ['cpp', 'prettyprint', 'language-cpp', 'language-plain'])
 
 	#logging.debug("code_list:")
 	#logging.debug(code_list)
