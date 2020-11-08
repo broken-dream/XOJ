@@ -2,7 +2,7 @@ import urllib.request, urllib.parse
 from bs4 import BeautifulSoup
 import logging
 import re
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 reChinese = re.compile(r'[^\x00-\x7f]')
 
 meaninglessCode = '#include<stdio.h> int main(){ printf("Hello world!");} '
