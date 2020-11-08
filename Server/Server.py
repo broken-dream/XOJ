@@ -4,7 +4,7 @@ import DatabaseClient
 import OnlineJudge
 import Search
 import logging
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 os.chdir('FrontEnd')
 

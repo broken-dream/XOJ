@@ -5,6 +5,7 @@ import re
 logging.basicConfig(level=logging.DEBUG)
 reChinese = re.compile(r'[^\x00-\x7f]')
 
+meaninglessCode = '#include<stdio.h> int main(){ printf("Hello world!");} '
 
 def search(onlinejudge, problem, index = 0):
 	logging.debug("search:")
@@ -25,7 +26,7 @@ def search(onlinejudge, problem, index = 0):
 	#logging.debug(html)
 	soup = BeautifulSoup(html, 'lxml')
 	#code_list = soup.find_all('pre', class_ = ['cpp', 'prettyprint'])
-	code_list = soup.find_all('code', class_ = ['cpp', 'prettyprint', 'language-cpp', 'language-plain'])
+	code_list = soup.find_all('code')#, class_ = ['cpp', 'prettyprint', 'language-cpp', 'language-plain', 'language-objc'])
 
 	#logging.debug("code_list:")
 	#logging.debug(code_list)
@@ -41,6 +42,9 @@ def search(onlinejudge, problem, index = 0):
 	}
 	logging.debug("data:")
 	logging.debug(data)
+
+	if data['code'] == '':
+		data['code'] = meaninglessCode
 	return data
 
 if __name__ == '__main__':

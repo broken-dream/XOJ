@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import re
 import base64
 import logging
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 class OnlineJudge:
     
@@ -227,6 +227,7 @@ class POJ(OnlineJudge):
 		return problem
 
 	def submit(self, problemid, language, code):
+		logging.debug("submit:")
 		problemid = str(problemid)
 		data = {
 			'problem_id': problemid,
@@ -239,6 +240,7 @@ class POJ(OnlineJudge):
 		data = urllib.parse.urlencode(data).encode(POJ.encoding)
 		request = urllib.request.Request(POJ.submit_url, data)
 		html = self.opener.open(request).read().decode(POJ.encoding)
+		logging.debug(html) 
 		return html.find('Status') != -1
 
 	def status(self, problemid, username = None):
