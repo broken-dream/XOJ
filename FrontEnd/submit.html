@@ -93,6 +93,9 @@
           "code": code,
           "lang": "G++"
         }
+        console.log(code_obj)
+        code_obj["code"] = code_obj["code"].replace(/[^\x00-\x7F]/g,"");
+        console.log(code_obj["code"])
         if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
           xmlhttp = new XMLHttpRequest();
         }
@@ -109,8 +112,10 @@
           }
         }
         xmlhttp.open("POST", "/status", true);
-        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+        JSON.stringify(code_obj)
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=ISO-8859-1")
         xmlhttp.setRequestHeader("submitdata", JSON.stringify(code_obj))
+        console.log("Here!")
         xmlhttp.send()
       }
     }

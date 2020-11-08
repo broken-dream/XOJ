@@ -85,11 +85,13 @@ def submit():
 
 @xoj.route('/status', method = 'POST')
 def statusdata():
+    logging.debug('statusdata:')
     submitdata = bottle.request.headers.get('submitdata')
     submitdata = json.loads(submitdata)
     oj = submitdata['oj']
     pid = submitdata['pid']
     code = submitdata['code']
+    logging.debug(submitdata)
     #result = hdu.submit(pid, 'g++', code)
     result = ojDict[oj].submit(pid, 'g++', code)
     return '1' if result else '0'
